@@ -1,0 +1,27 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        #连通 不含回路
+        #那还是用那个队列就能解决了
+        #但是这个没有入度的问题 无向图怎么判断有没有回路呢？？
+        if len(edges)>n-1:
+            return False
+        adj=[[] for _ in range(n)]
+        for u,v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+        visit=set()
+        q=deque([(0,-1)])
+        visit.add(0)
+        while q:
+            node,parent=q.popleft()
+            for nei in adj[node]:
+                if nei==parent:
+                    continue
+                if nei in visit:
+                    return False
+                visit.add(nei)
+                q.append((nei,node))
+        return len(visit)==n
+                
+
+        
